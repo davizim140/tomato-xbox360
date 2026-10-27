@@ -40,20 +40,18 @@ jobs:
       - name: Build official xsdk samples
         working-directory: ${{ github.workspace }}/xsdk
         run: |
-          export PATH="${{ runner.temp }}/xsdk-gcc/bin:$PATH"
-          make -j2
-          make samples
+          make -j2 TOOLCHAIN="${{ runner.temp }}/xsdk-gcc/bin/powerpc-xsdk-elf-"
 
       - name: Verify bootstrap XEX exists
         run: |
-          test -s "$GITHUB_WORKSPACE/xsdk/build/samples/template/title.xex"
-          file "$GITHUB_WORKSPACE/xsdk/build/samples/template/title.xex"
-          sha256sum "$GITHUB_WORKSPACE/xsdk/build/samples/template/title.xex"
+          test -s "$GITHUB_WORKSPACE/xsdk/build/xsdk_test.xex"
+          file "$GITHUB_WORKSPACE/xsdk/build/xsdk_test.xex"
+          sha256sum "$GITHUB_WORKSPACE/xsdk/build/xsdk_test.xex"
 
       - name: Upload bootstrap XEX (sample only)
         uses: actions/upload-artifact@v4
         with:
           name: tomato-xbox360-bootstrap-xex
-          path: xsdk/build/samples/template/title.xex
+          path: xsdk/build/xsdk_test.xex
           if-no-files-found: error
           retention-days: 14
