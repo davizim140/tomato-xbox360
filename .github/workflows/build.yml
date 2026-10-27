@@ -39,9 +39,8 @@ jobs:
 
       - name: Build official xsdk samples
         working-directory: ${{ github.workspace }}/xsdk
-        env:
-          PATH: ${{ runner.temp }}/xsdk-gcc/bin:${{ env.PATH }}
         run: |
+          export PATH="${{ runner.temp }}/xsdk-gcc/bin:$PATH"
           make -j2
           make samples
 
